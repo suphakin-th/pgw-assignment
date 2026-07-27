@@ -20,6 +20,35 @@ Verify:
 dotnet --version
 ```
 
+## Quick start (one command)
+
+The helper scripts check the SDK, restore, build, run all tests, then start the
+Payment API on `http://localhost:5080`.
+
+macOS / Linux / Git Bash:
+
+```bash
+./run.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./run.ps1
+```
+
+To run the reconciliation on the bundled sample data:
+
+```bash
+./reconcile.sh                       # defaults to Reconciliation/data
+./reconcile.sh <listA.csv> <listB.csv> <outDir>
+```
+
+```powershell
+./reconcile.ps1
+./reconcile.ps1 -A <listA.csv> -B <listB.csv> -Out <outDir>
+```
+
 ## Build everything
 
 ```bash
