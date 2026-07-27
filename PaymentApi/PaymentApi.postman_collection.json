@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "PGW Mini Payment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5080" },
+    { "key": "api_key", "value": "pgw-demo-key-001" }
+  ],
+  "item": [
+    {
+      "name": "Pay 10.00 (APPROVED)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Api-Key", "value": "{{api_key}}" }
+        ],
+        "url": "{{base_url}}/api/v1/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_number\": \"ORD-1001\",\n  \"card_number\": \"4111111111111111\",\n  \"expiry_date\": \"12/30\",\n  \"cvv\": \"123\",\n  \"currency\": \"THB\",\n  \"cardholder_name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"amount\": 10.00\n}"
+        }
+      }
+    },
+    {
+      "name": "Pay 10.05 (DECLINED)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Api-Key", "value": "{{api_key}}" }
+        ],
+        "url": "{{base_url}}/api/v1/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_number\": \"ORD-1002\",\n  \"card_number\": \"4111111111111111\",\n  \"expiry_date\": \"12/30\",\n  \"cvv\": \"123\",\n  \"currency\": \"THB\",\n  \"cardholder_name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"amount\": 10.05\n}"
+        }
+      }
+    },
+    {
+      "name": "Pay with Idempotency-Key",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Api-Key", "value": "{{api_key}}" },
+          { "key": "Idempotency-Key", "value": "idem-abc-123" }
+        ],
+        "url": "{{base_url}}/api/v1/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_number\": \"ORD-1003\",\n  \"card_number\": \"4111111111111111\",\n  \"expiry_date\": \"12/30\",\n  \"cvv\": \"123\",\n  \"currency\": \"THB\",\n  \"cardholder_name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"amount\": 42.00\n}"
+        }
+      }
+    },
+    {
+      "name": "Missing API key (401)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "url": "{{base_url}}/api/v1/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_number\": \"ORD-1004\",\n  \"card_number\": \"4111111111111111\",\n  \"expiry_date\": \"12/30\",\n  \"cvv\": \"123\",\n  \"currency\": \"THB\",\n  \"cardholder_name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"amount\": 10.00\n}"
+        }
+      }
+    },
+    {
+      "name": "Invalid payload (422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Api-Key", "value": "{{api_key}}" }
+        ],
+        "url": "{{base_url}}/api/v1/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_number\": \"ORD-1005\",\n  \"card_number\": \"41111\",\n  \"expiry_date\": \"13/20\",\n  \"cvv\": \"1\",\n  \"currency\": \"thb\",\n  \"cardholder_name\": \"\",\n  \"email\": \"not-an-email\",\n  \"amount\": 10.00\n}"
+        }
+      }
+    }
+  ]
+}
